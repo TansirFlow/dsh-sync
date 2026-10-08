@@ -1,0 +1,18 @@
+{
+  "name": "dsh-sync-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "多用户 DSH 会话记录同步与大屏查看服务",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.5.0",
+    "nodemailer": "^6.9.16"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

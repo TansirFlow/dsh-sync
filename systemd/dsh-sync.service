@@ -1,0 +1,30 @@
+[Unit]
+# 部署在**云端服务器**上
+Description=DSH Sync - 多用户会话记录同步与查看服务
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# 改成实际运行用户
+User=dshsync
+Group=dshsync
+WorkingDirectory=/opt/dsh-sync/server
+EnvironmentFile=/opt/dsh-sync/dsh-sync.env
+ExecStart=/usr/bin/node /opt/dsh-sync/server/src/index.js
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=dsh-sync
+
+# ---- 基础加固 ----
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+# 仅允许写数据目录
+ReadWritePaths=/opt/dsh-sync/data
+
+[Install]
+WantedBy=multi-user.target

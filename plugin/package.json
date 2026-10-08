@@ -1,0 +1,15 @@
+{
+  "name": "dsh-sync-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "把 DSH 会话事件实时推送到 DSH Sync 服务",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*"
+  }
+}

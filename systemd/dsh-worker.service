@@ -1,0 +1,26 @@
+[Unit]
+# 部署在**本地 DSH 机器**上
+Description=DSH Sync Worker - 本地执行节点（拉取云端任务并运行 headless）
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# 改成实际运行用户（需与 DSH_HOME 的所有者一致）
+User=dsuser
+Group=dsuser
+WorkingDirectory=/home/dsuser
+EnvironmentFile=/opt/dsh-sync/dsh-worker.env
+ExecStart=/usr/bin/node /opt/dsh-sync/worker/worker.js
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=dsh-worker
+
+# ---- 基础加固 ----
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,28 @@
+[Unit]
+# 部署在**本地 DSH 机器**上（可选：仅当需要 DSH 自带 Web UI 时）
+Description=DeepSeek Harness Web (profile: web) with DSH Sync plugin
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=dsuser
+Group=dsuser
+WorkingDirectory=/home/dsuser/deepseek-harness
+Environment=HOME=/home/dsuser
+Environment=NEW_API_API_KEY=请替换为模型密钥
+ExecStart=/usr/bin/node /home/dsuser/deepseek-harness/apps/cli/lib/bin.js --profile web --no-open
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=dsh-web
+
+# 注意：DSH 刻意拒绝 --host 0.0.0.0（会把 RCE 暴露到网络）。
+# 它只监听 127.0.0.1，需要远程访问请自行加带认证的反向代理，
+# 并用 --trusted-host <代理的 host:port> 让 /api 信任围栏放行。
+# 示例：
+#   ExecStart=... --profile web --no-open --trusted-host dsh.example.com:443
+
+[Install]
+WantedBy=multi-user.target
